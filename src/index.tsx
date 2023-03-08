@@ -17,7 +17,7 @@ const App = () => {
 
     useEffect(() => {
         startService();
-        console.clear();
+        // console.clear();
     }, []);
 
     const onClickHandler = async () => {
@@ -44,7 +44,7 @@ const App = () => {
             <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                cols={100}
+                cols={50}
                 rows={20}
             ></textarea>
             <div>
