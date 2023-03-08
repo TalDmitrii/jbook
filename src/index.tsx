@@ -17,24 +17,25 @@ const App = () => {
 
     useEffect(() => {
         startService();
+        console.clear();
     }, []);
 
     const onClickHandler = async () => {
         if (!ref.current) {
             return;
         }
-        // const result = await ref.current.transform(input, {
-        //     loader: "jsx",
-        //     target: "es2015",
-        // });
+
         const result = await ref.current.build({
             entryPoints: ["index.js"],
             bundle: true,
             write: false,
             plugins: [unpkgPathPlugin()],
+            define: {
+                "process.env.NODE_ENV": '"production"',
+                global: "window",
+            },
         });
 
-        // console.log(result);
         setCode(result.outputFiles[0].text);
     };
 
