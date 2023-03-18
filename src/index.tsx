@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { unpkgPathPlugin } from "./plugins/unpcg-path-plug";
 import { fetchPlugin } from "./plugins/fetch-plugin";
+import CodeEditor from "./components/code-editor";
 
 const App = () => {
     const ref = useRef<any>();
@@ -71,6 +72,10 @@ const App = () => {
                 cols={50}
                 rows={20}
             ></textarea>
+            <CodeEditor
+                initialValue="const a = 1;"
+                onChange={(value) => setInput(value)}
+            />
             <div>
                 <button onClick={onClickHandler}>SUBMIT</button>
             </div>
