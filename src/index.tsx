@@ -1,18 +1,22 @@
-import "bulmaswatch/superhero/bulmaswatch.min.css";
-import * as esbuild from "esbuild-wasm";
 import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
+import * as esbuild from "esbuild-wasm";
+
 import { unpkgPathPlugin } from "./plugins/unpcg-path-plug";
 import { fetchPlugin } from "./plugins/fetch-plugin";
+
 import CodeEditor from "./components/code-editor";
+import Preview from "./components/preview";
+
+import "bulmaswatch/superhero/bulmaswatch.min.css";
 
 const App = () => {
-    const ref = useRef<any>();
-    const iframe = useRef<any>();
+    const refESBuild = useRef<any>();
+    const [code, setCode] = useState("");
     const [input, setInput] = useState("");
 
     const startService = async () => {
-        ref.current = await esbuild.startService({
+        refESBuild.current = await esbuild.startService({
             worker: true,
             wasmURL: "https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm",
         });
@@ -24,13 +28,11 @@ const App = () => {
     }, []);
 
     const onClickHandler = async () => {
-        if (!ref.current) {
+        if (!refESBuild.current) {
             return;
         }
 
-        iframe.current.srcdoc = html;
-
-        const result = await ref.current.build({
+        const result = await refESBuild.current.build({
             entryPoints: ["index.js"],
             bundle: true,
             write: false,
@@ -41,38 +43,11 @@ const App = () => {
             },
         });
 
-        iframe.current.contentWindow.postMessage(
-            result.outputFiles[0].text,
-            "*"
-        );
+        setCode(result.outputFiles[0].text);
     };
-
-    const html = `<html>
-        <head></head>
-        <body>
-            <div id="root"></div>
-            <script>
-                window.addEventListener("message", (event) => {
-                    try {
-                        eval(event.data);
-                    } catch(error) {
-                        const root = document.querySelector("#root");
-                        root.innerHTML = '<div>' + error + '</div>';
-                        throw error;
-                    }
-                }, false);
-            </script>
-        </body>
-    </html>`;
 
     return (
         <div>
-            <textarea
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                cols={50}
-                rows={20}
-            ></textarea>
             <CodeEditor
                 initialValue="const a = 1;"
                 onChange={(value) => setInput(value)}
@@ -80,12 +55,7 @@ const App = () => {
             <div>
                 <button onClick={onClickHandler}>SUBMIT</button>
             </div>
-            <iframe
-                ref={iframe}
-                srcDoc={html}
-                sandbox="allow-scripts"
-                title="Unique iframe"
-            ></iframe>
+            <Preview code={code} />
         </div>
     );
 };
