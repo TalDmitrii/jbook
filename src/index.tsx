@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ReactDOM from "react-dom";
 
-import { bundle } from "./bundler";
+import bundle from "./bundler";
 
 import CodeEditor from "./components/code-editor";
 import Preview from "./components/preview";
@@ -20,7 +20,7 @@ const App = () => {
     return (
         <div>
             <CodeEditor
-                initialValue="const a = 1;"
+                initialValue="const a = 1; console.log(a)"
                 onChange={(value) => setInput(value)}
             />
             <div>
