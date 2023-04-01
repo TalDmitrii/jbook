@@ -1,0 +1,17 @@
+.preview-wrapper {
+    display: flex;
+    position: relative;
+    flex-grow: 1;
+}
+
+.react-draggable-transparent-selection .preview-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.preview-wrapper iframe {
+    background-color: white;
+    flex-grow: 1;
+}
