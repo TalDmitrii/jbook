@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import bundle from "../bundler";
 
@@ -10,10 +10,16 @@ const CodeCell = () => {
     const [code, setCode] = useState("");
     const [input, setInput] = useState("");
 
-    const onClickHandler = async () => {
-        const output = await bundle(input);
-        setCode(output);
-    };
+    useEffect(() => {
+        const timer = setTimeout(async () => {
+            const output = await bundle(input);
+            setCode(output);
+        }, 1000);
+
+        return () => {
+            clearTimeout(timer);
+        };
+    }, [input]);
 
     return (
         <Resizible direction="vertical">
