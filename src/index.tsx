@@ -1,3 +1,4 @@
+import "bulmaswatch/superhero/bulmaswatch.min.css";
 import * as esbuild from "esbuild-wasm";
 import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
@@ -19,7 +20,7 @@ const App = () => {
 
     useEffect(() => {
         startService();
-        // console.clear();
+        console.clear();
     }, []);
 
     const onClickHandler = async () => {
