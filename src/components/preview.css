@@ -1,7 +1,15 @@
 .preview-wrapper {
     display: flex;
+    flex-wrap: wrap;
     position: relative;
     flex-grow: 1;
+}
+
+.preview-error {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: red;
 }
 
 .react-draggable-transparent-selection .preview-wrapper::before {
